@@ -17,13 +17,13 @@ class JsonRpcFormView(FormView):
         except ValueError:
             params = {}
 
-        client = JsonRpcClient(host="slb.medv.ru")
+        client = JsonRpcClient(host='slb.medv.ru')
         response_data = client.call_method(method, params)
 
-        if "error" not in response_data:
-            response_data = {f"status": f"Авторизация прошла успешно"}
+        if 'error' not in response_data:
+            response_data = {'status': 'Авторизация прошла успешно'}
         else:
-            response_data = {"status": "Попытка авторизации не удалась"}
+            response_data = {'status': 'Попытка авторизации не удалась'}
 
 
         return self.render_to_response(self.get_context_data(form=form, response=response_data))

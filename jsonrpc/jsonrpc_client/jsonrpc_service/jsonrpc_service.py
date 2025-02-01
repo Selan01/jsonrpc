@@ -23,13 +23,13 @@ class JsonRpcClient:
         return http.client.HTTPSConnection(self.host, context=context)
 
     def _temp_cert_file(self, cert_content):
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".crt") as temp_cert_file:
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.crt') as temp_cert_file:
             temp_cert_file.write(cert_content.encode())
             temp_cert_file.close()
             return temp_cert_file.name
 
     def _temp_key_file(self, key_content):
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".key") as temp_key_file:
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.key') as temp_key_file:
             temp_key_file.write(key_content.encode())
             temp_key_file.close()
             return temp_key_file.name
@@ -39,14 +39,14 @@ class JsonRpcClient:
             os.remove(cert_file)
             os.remove(key_file)
         except OSError as e:
-            print(f"Ошибка при удалении временных файлов: {e}")
+            print(f'Ошибка при удалении временных файлов: {e}')
 
-    def call_method(self, method, params=None, endpoint="/api/v2/"):
+    def call_method(self, method, params=None, endpoint='/api/v2/'):
         payload = {
-            "jsonrpc": "2.0",
-            "method": method,
-            "params": params if params else {},
-            "id": 1
+            'jsonrpc': '2.0',
+            'method': method,
+            'params': params if params else {},
+            'id': 1
         }
 
         json_payload = json.dumps(payload)
@@ -58,25 +58,25 @@ class JsonRpcClient:
         }
 
         try:
-            conn.request("POST", endpoint, body=json_payload, headers=headers)
+            conn.request('POST', endpoint, body=json_payload, headers=headers)
             response = conn.getresponse()
             response_data = response.read().decode()
 
             result = json.loads(response_data)
 
-            if "error" in result:
-                raise ValueError(f"Ошибка API: {result['error']}")
+            if 'error' in result:
+                raise ValueError(f": {result['error']}")
 
             return result['result']
 
         except ValueError as ve:
-            print(f"Ошибка json: {ve}")
-            return {"error": str(ve)}
+            print(f'Ошибка JSON: {ve}')
+            return {'error': str(ve)}
         except http.client.HTTPException as he:
-            print(f"Ошибка HTTP: {he}")
+            print(f'Ошибка HTTP: {he}')
             return {"error": str(he)}
         except Exception as e:
-            print(f"Ошибка запроса: {e}")
-            return {"error": str(e)}
+            print(f'Ошибка запроса: {e}')
+            return {'error': str(e)}
         finally:
             conn.close()
