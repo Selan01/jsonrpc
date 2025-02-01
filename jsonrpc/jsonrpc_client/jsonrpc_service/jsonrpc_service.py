@@ -39,7 +39,7 @@ class JsonRpcClient:
             os.remove(cert_file)
             os.remove(key_file)
         except OSError as e:
-            print(f"Error removing temp files: {e}")
+            print(f"Ошибка при удалении временных файлов: {e}")
 
     def call_method(self, method, params=None, endpoint="/api/v2/"):
         payload = {
@@ -65,18 +65,18 @@ class JsonRpcClient:
             result = json.loads(response_data)
 
             if "error" in result:
-                raise ValueError(f"Error from API: {result['error']}")
+                raise ValueError(f"Ошибка API: {result['error']}")
 
             return result['result']
 
         except ValueError as ve:
-            print(f"JSON error: {ve}")
+            print(f"Ошибка json: {ve}")
             return {"error": str(ve)}
         except http.client.HTTPException as he:
-            print(f"HTTP error: {he}")
+            print(f"Ошибка HTTP: {he}")
             return {"error": str(he)}
         except Exception as e:
-            print(f"Request failed: {e}")
+            print(f"Ошибка запроса: {e}")
             return {"error": str(e)}
         finally:
             conn.close()
