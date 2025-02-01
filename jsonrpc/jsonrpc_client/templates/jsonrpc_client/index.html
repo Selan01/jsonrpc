@@ -1,0 +1,25 @@
+<!-- api_client/templates/api_client/index.html -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON-RPC Client</title>
+</head>
+<body>
+    <h1>Вызов метода JSON-RPC</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+
+    {% if response %}
+        <h2>Результат:</h2>
+        <pre>{{ response.status }}</pre>
+    {% endif %}
+</body>
+</html>
